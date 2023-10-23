@@ -3,7 +3,7 @@ import math
 import sys
 
 
-def get_pq(num: int):
+def get_p_q(num: int):
     limit = round(math.sqrt(num))
     for p in range(2, limit + 1):
         if num % p == 0:
