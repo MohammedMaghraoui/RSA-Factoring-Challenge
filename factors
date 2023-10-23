@@ -2,36 +2,24 @@
 import math
 import sys
 
-def get_prime_factors(num: int):
-    factors = []
-    # Divide the number by 2 until it's odd
-    while num % 2 == 0:
-        factors.append(2)
-        num //= 2
-    # Divide the number by odd numbers starting from 3
-    for p in range(3, int(math.sqrt(num)) + 1, 2):
-        while num % p == 0:
-            factors.append(p)
-            num //= p
-    # If the remaining number is greater than 1, it's a prime factor itself
-    if num > 1:
-        factors.append(num)
-    return factors
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python script.py filename")
-        return
+def get_pq(num: int):
+    limit = round(math.sqrt(num))
+    for p in range(2, limit + 1):
+        if num % p == 0:
+            q = num // p
+            print(f"{num}={q}*{p}")
+            return
 
-    filename = sys.argv[1]
-    try:
-        with open(filename, "r") as file:
-            for line in file:
-                num = int(line.strip())
-                prime_factors = get_prime_factors(num)
-                print(f"Prime factors of {num}: {prime_factors}")
-    except FileNotFoundError:
-        print(f"File '{filename}' doesn't exist")
 
-if __name__ == "__main__":
-    main()
+#check if file exists
+file = None
+try:
+    with open(sys.argv[1], "r") as file:
+        for line in file:
+            num = int(line.strip())
+            get_p_q(num)
+except FileNotFoundError:
+    print("File doesn't exist")
+except IndexError:
+    print("Usage: python script.py filename")
