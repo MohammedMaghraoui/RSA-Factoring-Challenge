@@ -3,23 +3,34 @@ import math
 import sys
 
 
-def get_p_q(num: int):
-    limit = round(math.sqrt(num))
-    for p in range(2, limit + 1):
-        if num % p == 0:
-            q = num // p
-            print(f"{num}={q}*{p}")
-            return
+def factorize(n):
+    factors = []
+    d = 2
+    while d * d <= n:
+        if n % d == 0:
+            factors.append(d)
+            n //= d
+        else:
+            d += 1
+    if n > 1:
+        factors.append(n)
+    return factors
 
+def main(filename):
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                n = int(line.strip())
+                factors = factorize(n)
+                factors_str = "*".join(map(str, factors))
+                print(f"{n}={factors_str}")
+    except Exception as e:
+        print(f"Error: {e}")
 
-#check if file exists
-file = None
-try:
-    with open(sys.argv[1], "r") as file:
-        for line in file:
-            num = int(line.strip())
-            get_p_q(num)
-except FileNotFoundError:
-    print("File doesn't exist")
-except IndexError:
-    print("Usage: python script.py filename")
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    main(filename)
