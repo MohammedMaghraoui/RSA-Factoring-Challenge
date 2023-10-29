@@ -1,25 +1,47 @@
 #!/usr/bin/python3
-import math
 import sys
 
+"""
+File_name: rsa
+Created: 28th of May, 2023
+Auth: David James Taiye (Official0mega)
+Size: undefined
+Project: RSA-Factoring-Challenge
+Status: submitted.
+"""
 
-def get_p_q(num: int):
-    limit = round(math.sqrt(num))
-    for p in range(2, limit + 1):
-            if num % p == 0:
-                q = num // p
-                print(f"{num}={q}*{p}")
-                return
+
+def factorization():
+
+    """
+    # RSA Laboratories states that: for each RSA number n
+    # ...there exist prime numbers p and q such that
+    # n = p × q. The problem is to find these two primes, given only n.
+    # VARIABLE(" "):
+    # factorize(int) Factorize all the things!
+    # This task is the same as task 0, except:
+    # .....p and q are always prime numbers
+    # .....There is only one number in the files
+    # .....How far can you go in less than 5 second?
+    """
+    try:
+        files = sys.argv[1]
+        with open(files) as f:
+            for numbs in f:
+                numbs = int(numbs)
+                if numbs % 2 == 0:
+                    print("{}={}*{}".format(numbs, numbs // 2, 2))
+                    continue
+                run = 3
+                while run < numbs // 2:
+                    if numbs % run == 0:
+                        print("{}={}*{}".format(numbs, numbs // run, run))
+                        break
+                    run = run + 2
+                if run == (numbs // 2) + 1:
+                    print("{}={}*{}".format(numbs, numbs, 1))
+    except (IndexError):
+        pass
 
 
-#check if file exists
-file = None
-try:
-    with open(sys.argv[1], "r") as file:
-        for line in file:
-            num = int(line.strip())
-            get_p_q(num)
-except FileNotFoundError:
-    print("File doesn't exist")
-except IndexError:
-    print("Usage: python script.py filename")
+factorization()
